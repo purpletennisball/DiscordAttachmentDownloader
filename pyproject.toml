@@ -3,5 +3,6 @@ name = "discord-attachment-downloader"
 version = "0.0.1"
 dependencies = [
     "ffmpeg-python",
-    "requests"
+    "requests",
+    "PyQt5"
 ]
