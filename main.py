@@ -149,8 +149,9 @@ class App(QMainWindow):
         self.thread.start()
         self.startButton.setEnabled(False)
         self.thread.finished.connect(lambda: self.startButton.setEnabled(True))
-
-app = QApplication(sys.argv)
-window = App()
-window.show()
-app.exec()
+        
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = App()
+    window.show()
+    app.exec()
