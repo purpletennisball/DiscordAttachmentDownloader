@@ -1,7 +1,7 @@
 # Imports
 import json, os, requests, ffmpeg, datetime, sys
 from PyQt5.QtCore import QObject, pyqtSignal, QThread
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QProgressBar, QHBoxLayout, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QProgressBar, QHBoxLayout, QFileDialog, QMessageBox
 from PyQt5.QtGui import QFont
 
 titleFont = QFont("Arial", 22)
@@ -118,7 +118,7 @@ class App(QMainWindow):
         self.exportFolder = FolderSelect()
         self.startButton = QPushButton("Start")
         self.bar = QProgressBar()
-        self.startButton.clicked.connect(self.__download)
+        self.startButton.clicked.connect(self._download)
         self.layout.addWidget(self.title)
         self.layout.addWidget(self.messagesFolderText)
         self.layout.addWidget(self.messagesFolder)
@@ -130,7 +130,12 @@ class App(QMainWindow):
         self.widget.setLayout(self.layout)
         self.setCentralWidget(self.widget)
 
-    def __download(self):
+    def _download(self):
+        folder = window.messagesFolder.text()
+        exportFolder = window.exportFolder.text()
+        if not (os.path.isdir(folder) and os.path.isdir(exportFolder)):
+            QMessageBox.critical(window, "Error", "A selected folder either isn't a folder or doesn't exist", QMessageBox.Ok)
+            return
         self.thread = QThread()
         self.worker = Downloader()
         self.worker.moveToThread(self.thread)
