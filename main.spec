@@ -32,6 +32,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon="icons/Icon.ico",
 )
 coll = COLLECT(
     exe,
@@ -45,6 +46,7 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='DiscordAttachmentDownloader.app',
-    icon=None,
+    icon="icons/Icon.icns",
     bundle_identifier=None,
+    version="0.0.1"
 )
