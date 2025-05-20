@@ -1,9 +1,29 @@
 # Imports
 import json, os, requests, ffmpeg, datetime, sys, threading
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QProgressBar
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QProgressBar, QHBoxLayout, QFileDialog
 from PyQt5.QtGui import QFont
 
 titleFont = QFont("Arial", 22)
+
+class FolderSelect(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.layout = QHBoxLayout()
+        self.setLayout(self.layout)
+        self.path = QLineEdit()
+        self.selectorButton = QPushButton("Select Folder")
+        self.selectorButton.clicked.connect(self.fileDialog)
+        self.layout.addWidget(self.path)
+        self.layout.addWidget(self.selectorButton)
+        self.layout.setContentsMargins(0,0,0,0)
+
+    def fileDialog(self):
+        folderPath = QFileDialog.getExistingDirectory(self, "Select Directory")
+        if folderPath:
+            self.path.setText(folderPath)
+
+    def text(self):
+        return self.path.text()
 
 class App(QMainWindow):
     def __init__(self):
@@ -16,9 +36,9 @@ class App(QMainWindow):
         self.title = QLabel("DiscordAttachementDownloader")
         self.title.setFont(titleFont)
         self.messagesFolderText = QLabel("Package Messages Folder")
-        self.messagesFolder = QLineEdit()
+        self.messagesFolder = FolderSelect()
         self.exportFolderText = QLabel("Found Attachments Folder")
-        self.exportFolder = QLineEdit()
+        self.exportFolder = FolderSelect()
         self.startButton = QPushButton("Start")
         self.bar = QProgressBar()
         self.startButton.clicked.connect(self.__download)
