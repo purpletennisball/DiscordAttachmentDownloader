@@ -70,7 +70,7 @@ class App(QMainWindow):
             if channelFolder != "index.json" or channelFolder != ".DS_Store":
                 messageFileLocation = folder + "/" + channelFolder + "/messages.json"
                 if os.path.exists(messageFileLocation):
-                    with open(messageFileLocation) as file:
+                    with open(messageFileLocation, "r", encoding="utf-8") as file:
                         messages = json.load(file)
                         for message in messages:
                             if message["Attachments"]:
