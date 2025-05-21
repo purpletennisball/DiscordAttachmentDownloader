@@ -30,19 +30,34 @@ jobs:
 
       - name: Build executable with PyInstaller
         run: pyinstaller main.spec
-
-      - name: Package executable
+      
+      - name: Zip .app bundle
+        if: matrix.os == 'macos-latest'
         run: |
           cd dist
-          rm -rf DiscordAttachmentDownloader
-          cd ..
+          zip -r ../release/MyApp-macOS.zip MyApp.app
+        shell: bash
+
+      - name: Upload zipped .app
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-macos-latest
+          path: release/MyApp-macOS.zip
+      
+      - name: Package executable
+        if: matrix.os != 'macos-latest'
+        run: |
+          mkdir package
+          cp -r dist/* package/
         shell: bash
 
       - name: Upload build artifact
+        if: matrix.os != 'macos-latest'
         uses: actions/upload-artifact@v4
         with:
           name: DiscordAttachmentDownloader ${{ matrix.os }}
-          path: dist
+          path: package
 
   release:
     name: Create GitHub Release
