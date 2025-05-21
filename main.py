@@ -47,7 +47,7 @@ class Downloader(QObject):
         for attachment in attachmentList:
             percent = int(attachmentsDownloaded/attachmentCount*100)
             self.progressChanged.emit(percent)
-            fileName = f"{exportFolder}/discord {attachment["channel"]} m{attachment["id"]} {attachment["originalName"]}"
+            fileName = f"{exportFolder}/discord {attachment['channel']} m{attachment['id']} {attachment['originalName']}"
             newFileName = f"{fileName}.m4a"
             with open(fileName, "wb") as file:
                 fail = False
