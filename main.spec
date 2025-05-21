@@ -48,5 +48,5 @@ app = BUNDLE(
     name='DiscordAttachmentDownloader.app',
     icon="icons/Icon.icns",
     bundle_identifier=None,
-    version="0.0.8"
+    version="0.0.9"
 )
