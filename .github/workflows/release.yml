@@ -33,16 +33,16 @@ jobs:
 
       - name: Package executable
         run: |
-          rm -rf dist/DiscordAttachmentDownloader
-          mkdir package
-          cp -r dist/* package/
+          cd dist
+          rm -rf DiscordAttachmentDownloader
+          cd ..
         shell: bash
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: DiscordAttachmentDownloader ${{ matrix.os }}
-          path: package
+          path: dist
 
   release:
     name: Create GitHub Release
