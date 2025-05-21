@@ -33,10 +33,14 @@ jobs:
       
       - name: Zip dist folder
         run: |
-          mkdir -p release
-          zip -r release/DiscordAttachmentDownloader-${{ matrix.os }}.zip dist/
+          mkdir release
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            powershell -Command "Compress-Archive -Path dist/* -DestinationPath release/DiscordAttachmentDownloader-${{ matrix.os }}.zip"
+          else
+            zip -r "release/DiscordAttachmentDownloader-${{ matrix.os }}.zip" dist/
+          fi
         shell: bash
-
+        
       - name: Upload zipped dist folder
         uses: actions/upload-artifact@v4
         with:
