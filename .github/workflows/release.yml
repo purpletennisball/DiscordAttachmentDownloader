@@ -33,6 +33,7 @@ jobs:
 
       - name: Package executable
         run: |
+          rm DiscordAttachmentDownloader
           mkdir package
           cp -r dist/* package/
         shell: bash
